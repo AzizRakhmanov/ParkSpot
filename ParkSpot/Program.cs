@@ -1,13 +1,17 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ParkSpot.Areas.Identity.Data;
+using ParkSpot.DAL.DbAccess;
 using ParkSpot.Data;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ParkSpotDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ParkSpotDbContextConnection' not found.");
 
 builder.Services.AddDbContext<ParkSpotDbContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<UserLoginModel>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ParkSpotDbContext>();
+builder.Services.AddDbContext<ParkSlotDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
+
+builder.Services.AddDefaultIdentity<UserLoginModel>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ParkSpotDbContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
