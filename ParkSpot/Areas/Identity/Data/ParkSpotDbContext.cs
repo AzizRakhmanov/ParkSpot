@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ParkSpot.Areas.Identity.Data;
+using ParkSpot.Models;
 
 namespace ParkSpot.Data;
 
@@ -11,6 +12,7 @@ public class ParkSpotDbContext : IdentityDbContext<UserLoginModel>
         : base(options)
     {
     }
+    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -19,4 +21,6 @@ public class ParkSpotDbContext : IdentityDbContext<UserLoginModel>
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
     }
+
+public DbSet<ParkSpot.Models.User> User { get; set; } = default!;
 }
