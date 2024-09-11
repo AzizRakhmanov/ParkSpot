@@ -7,7 +7,7 @@ var connectionString = builder.Configuration.GetConnectionString("ParkSpotDbCont
 
 builder.Services.AddDbContext<ParkSpotDbContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<UserLoginModel>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ParkSpotDbContext>();
+builder.Services.AddDefaultIdentity<UserLoginModel>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ParkSpotDbContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
