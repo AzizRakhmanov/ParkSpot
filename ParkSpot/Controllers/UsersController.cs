@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using ParkSpot.DAL.DbAccess;
 using ParkSpot.Data;
 using ParkSpot.Models;
 
@@ -12,14 +14,14 @@ namespace ParkSpot.Controllers
 {
     public class UsersController : Controller
     {
-        private readonly ParkSpotDbContext _context;
+        private readonly ParkSlotDbContext _context;
 
-        public UsersController(ParkSpotDbContext context)
+        public UsersController(ParkSlotDbContext context)
         {
             _context = context;
         }
 
-        // GET: Users
+        [HttpGet, ActionName("Index")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Users.ToListAsync());
@@ -43,30 +45,28 @@ namespace ParkSpot.Controllers
             return View(user);
         }
 
-        // GET: Users/Create
+        [HttpGet,ActionName("Create")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Users/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FirstName,LastName,BirthDate,Email,Password,Id")] User user)
+        [HttpPost,ActionName("Create")]
+        public async Task<IActionResult> Create(User user)
         {
             if (ModelState.IsValid)
             {
-                user.Id = Guid.NewGuid();
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                user.Id = new Guid();
+                await this._context.AddAsync(user);
+                await this._context.SaveChangesAsync();
+                return RedirectToAction("Index");
+
             }
             return View(user);
+           
         }
 
-        // GET: Users/Edit/5
+        [HttpGet]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -82,27 +82,22 @@ namespace ParkSpot.Controllers
             return View(user);
         }
 
-        // POST: Users/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("FirstName,LastName,BirthDate,Email,Password,Id")] User user)
+        public async Task<IActionResult> Edit(User user)
         {
-            if (id != user.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
                     _context.Update(user);
                     await _context.SaveChangesAsync();
+
+                    return RedirectToAction("Index");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
+                    return RedirectToAction("Index");
                     if (!UserExists(user.Id))
                     {
                         return NotFound();
@@ -112,7 +107,6 @@ namespace ParkSpot.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
             return View(user);
         }

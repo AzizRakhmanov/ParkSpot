@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ParkSpot.DAL.DbAccess;
 
@@ -11,9 +12,11 @@ using ParkSpot.DAL.DbAccess;
 namespace ParkSpot.Migrations.ParkSlotDb
 {
     [DbContext(typeof(ParkSlotDbContext))]
-    partial class ParkSlotDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240914183600_Initial_data_change_in_user_migration")]
+    partial class Initial_data_change_in_user_migration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
