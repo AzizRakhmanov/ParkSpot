@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ParkSpot.DAL.DbAccess;
-using ParkSpot.Data;
 using ParkSpot.Models;
 
 namespace ParkSpot.Controllers
@@ -45,13 +38,13 @@ namespace ParkSpot.Controllers
             return View(user);
         }
 
-        [HttpGet,ActionName("Create")]
+        [HttpGet, ActionName("Create")]
         public IActionResult Create()
         {
             return View();
         }
 
-        [HttpPost,ActionName("Create")]
+        [HttpPost, ActionName("Create")]
         public async Task<IActionResult> Create(User user)
         {
             if (ModelState.IsValid)
@@ -63,7 +56,7 @@ namespace ParkSpot.Controllers
 
             }
             return View(user);
-           
+
         }
 
         [HttpGet]
@@ -84,7 +77,7 @@ namespace ParkSpot.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(User user)
+        public async Task<IActionResult> Edit(ParkSpot.Models.User user)
         {
             if (ModelState.IsValid)
             {

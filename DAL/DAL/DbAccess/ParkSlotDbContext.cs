@@ -7,7 +7,7 @@ namespace ParkSpot.DAL.DbAccess
     {
         public ParkSlotDbContext(DbContextOptions<ParkSlotDbContext> options)
             : base(options)
-        {}
+        { }
 
         public DbSet<User> Users { get; set; }
     }
