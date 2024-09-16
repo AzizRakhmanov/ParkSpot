@@ -5,8 +5,8 @@ namespace ParkSpot.Models.ViewModels
     public class UserForCreateViewModel
     {
         [Required]
-        [MinLength(2),MaxLength(100)]
-        public string FirstName {  get; set; }
+        [MinLength(2), MaxLength(100)]
+        public string FirstName { get; set; }
 
 
         [Required]

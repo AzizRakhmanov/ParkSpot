@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ParkSpot.Areas.Identity.Data;
 using ParkSpot.Models;
@@ -22,5 +21,5 @@ public class ParkSpotDbContext : IdentityDbContext<UserLoginModel>
         // Add your customizations after calling base.OnModelCreating(builder);
     }
 
-public DbSet<ParkSpot.Models.User> User { get; set; } = default!;
+    public DbSet<ParkSpot.Models.User> User { get; set; } = default!;
 }
