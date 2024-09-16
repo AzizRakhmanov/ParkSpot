@@ -11,11 +11,10 @@ namespace DAL.Repository
         private readonly ParkSlotDbContext _context;
 
         private readonly DbSet<Entity> _dbSet;
-        public ParkSlotRepository(ParkSlotDbContext context,
-            DbSet<Entity> dbSet)
+        public ParkSlotRepository(ParkSlotDbContext context)
         {
             this._context = context;
-            this._dbSet = dbSet;
+            this._dbSet = this._context.Set<Entity>();
         }
         public async ValueTask<Entity> AddAsync(Entity entity)
         {

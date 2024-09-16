@@ -2,34 +2,34 @@
 using Microsoft.EntityFrameworkCore;
 using ParkSpot.DAL.DbAccess;
 using ParkSpot.Models;
+using Service.Services.UserService;
 
 namespace ParkSpot.Controllers
 {
     public class UsersController : Controller
     {
-        private readonly ParkSlotDbContext _context;
+        private readonly IUserService _userService;
 
-        public UsersController(ParkSlotDbContext context)
+        public UsersController(IUserService userService)
         {
-            _context = context;
+            this._userService = userService;
         }
 
-        [HttpGet, ActionName("Index")]
+        [HttpGet, ActionName(nameof(Index))]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users.ToListAsync());
+            return View(await this._userService.RetrieveAllAsync());
         }
 
         // GET: Users/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public IActionResult Details(Guid id)
         {
-            if (id == null)
+            if (id == Guid.Empty)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var user = this._userService.Retrieve(id);
             if (user == null)
             {
                 return NotFound();
@@ -38,21 +38,20 @@ namespace ParkSpot.Controllers
             return View(user);
         }
 
-        [HttpGet, ActionName("Create")]
+        [HttpGet, ActionName(nameof(Create))]
         public IActionResult Create()
         {
             return View();
         }
 
-        [HttpPost, ActionName("Create")]
+        [HttpPost, ActionName(nameof(Create))]
         public async Task<IActionResult> Create(User user)
         {
             if (ModelState.IsValid)
             {
                 user.Id = new Guid();
-                await this._context.AddAsync(user);
-                await this._context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                await this._userService.AddAsync(user);
+                return RedirectToAction(nameof(Index));
 
             }
             return View(user);
@@ -60,86 +59,75 @@ namespace ParkSpot.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(Guid? id)
+        public IActionResult Edit(Guid id)
         {
-            if (id == null)
+            if (id == Guid.Empty)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
+            var user = this._userService.Retrieve(id);
             return View(user);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(ParkSpot.Models.User user)
+        public async Task<IActionResult> Edit(User user)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(user);
-                    await _context.SaveChangesAsync();
+                    await this._userService.UpdateAsync(user);
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    return RedirectToAction("Index");
-                    if (!UserExists(user.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return NotFound();
+                    //if (!UserExists(user.Id))
+                    //{
+                    //    return NotFound();
+                    //}
+                    //else
+                    //{
+                    //    throw;
+                    //}
                 }
             }
             return View(user);
         }
 
         // GET: Users/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        [HttpGet,ActionName(nameof(Delete))]
+        public IActionResult Delete(Guid id)
         {
-            if (id == null)
+            try
+            {
+                var user =  this._userService.Retrieve(id);
+
+                return View(user);
+            }
+            catch
             {
                 return NotFound();
             }
-
-            var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return View(user);
         }
 
         // POST: Users/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName(nameof(Delete))]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user != null)
+            try
             {
-                _context.Users.Remove(user);
+                this._userService.Delete(id);
+                return RedirectToAction(nameof(Index));
             }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool UserExists(Guid id)
-        {
-            return _context.Users.Any(e => e.Id == id);
+            catch
+            {
+                return BadRequest();
+            }
         }
     }
 }

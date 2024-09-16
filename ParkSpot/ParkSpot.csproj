@@ -17,6 +17,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.5" />
 	  <ProjectReference Include="..\DAL\DAL.csproj" />
 	  <ProjectReference Include="..\Domain\Domain.csproj" />
+	  <ProjectReference Include="..\Service\Service.csproj" />
   </ItemGroup>
 
 </Project>
