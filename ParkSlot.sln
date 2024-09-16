@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParkSpot", "ParkSpot\ParkSp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{0B7F5BF8-BC4C-4910-A685-B712442721E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xUnit", "xUnit\xUnit.csproj", "{AEF98305-DAE4-404D-B6B5-FED69FF0A3B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0B7F5BF8-BC4C-4910-A685-B712442721E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B7F5BF8-BC4C-4910-A685-B712442721E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B7F5BF8-BC4C-4910-A685-B712442721E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEF98305-DAE4-404D-B6B5-FED69FF0A3B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEF98305-DAE4-404D-B6B5-FED69FF0A3B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEF98305-DAE4-404D-B6B5-FED69FF0A3B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEF98305-DAE4-404D-B6B5-FED69FF0A3B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
